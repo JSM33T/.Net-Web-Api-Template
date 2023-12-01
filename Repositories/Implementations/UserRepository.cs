@@ -1,7 +1,6 @@
 ﻿using almondCoveApi.Data;
 using almondCoveApi.Enums;
 using almondCoveApi.Models.Domain;
-using almondCoveApi.Models.DTO;
 using almondCoveApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,15 +22,11 @@ namespace almondCoveApi.Repositories.Implementations
 
         public async Task<MatchUser> ExistsAsync(User user)
         {
-            //return await _context.UserProfiles.AnyAsync(u => u.UserName == username);
-          //  return await _context.UserProfiles.AnyAsync(m => m.UserName == user.UserName || m.Email == user.Email);
-
             var existsByUsername = await _context.UserProfiles.AnyAsync(u => u.UserName == user.UserName);
             var existsByEmail = await _context.UserProfiles.AnyAsync(u => u.Email == user.Email);
             if (existsByUsername && existsByEmail)
             {
                 // This condition shouldn't happen if both username and email are unique in your database.
-                // Handle it according to your requirements.
                 return MatchUser.UserName;
             }
             else if (existsByUsername)

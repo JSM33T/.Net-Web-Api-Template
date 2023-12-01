@@ -16,6 +16,20 @@ builder.Services.AddDbContext<AlmondDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("almondCoveStr"));
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("https://laymaann.in", "http://localhost:4200/")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+        });
+});
+
+
+
+
 builder.Services.AddMvc();
 //repos as services
 builder.Services.AddScoped<IMailRepository, MailRepository>();
@@ -31,7 +45,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors(builder =>
+{
+    builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+});
 app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();
