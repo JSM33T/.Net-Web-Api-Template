@@ -31,4 +31,8 @@
     <Folder Include="wwwroot\blogs\2023\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\assets\js\script.js" />
+  </ItemGroup>
+
 </Project>

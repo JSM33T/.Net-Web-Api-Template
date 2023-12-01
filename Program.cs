@@ -16,7 +16,7 @@ builder.Services.AddDbContext<AlmondDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("almondCoveStr"));
 });
 
-
+builder.Services.AddMvc();
 //repos as services
 builder.Services.AddScoped<IMailRepository, MailRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
