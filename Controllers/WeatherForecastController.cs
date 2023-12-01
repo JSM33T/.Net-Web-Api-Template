@@ -1,3 +1,4 @@
+using almondCoveApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace almondCoveApi.Controllers
@@ -21,6 +22,7 @@ namespace almondCoveApi.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            _logger.LogInformation("api reached");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -28,6 +30,7 @@ namespace almondCoveApi.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+            
         }
     }
 }

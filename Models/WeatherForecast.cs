@@ -1,4 +1,4 @@
-namespace almondCoveApi
+namespace almondCoveApi.Models
 {
     public class WeatherForecast
     {

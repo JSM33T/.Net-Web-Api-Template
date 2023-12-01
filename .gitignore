@@ -5,9 +5,6 @@
 
 # UserDirs
 
-wwwroot/assets
-wwwroot/content
-wwwroot/lib
 appsettings.json
 # User-specific files
 *.rsuser
