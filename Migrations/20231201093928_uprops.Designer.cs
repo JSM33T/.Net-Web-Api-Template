@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using almondCoveApi.Data;
 
@@ -11,9 +12,11 @@ using almondCoveApi.Data;
 namespace almondCoveApi.Migrations
 {
     [DbContext(typeof(AlmondDbContext))]
-    partial class AlmondDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231201093928_uprops")]
+    partial class uprops
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

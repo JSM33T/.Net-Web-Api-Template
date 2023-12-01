@@ -7,22 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Extensions\**" />
     <Compile Remove="Repository\**" />
-    <Compile Remove="Services\**" />
-    <Compile Remove="wwwroot\**" />
-    <Content Remove="Extensions\**" />
     <Content Remove="Repository\**" />
-    <Content Remove="Services\**" />
-    <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="Repository\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="Extensions\**" />
     <None Remove="Repository\**" />
-    <None Remove="Services\**" />
-    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\DTO\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="NewFolder\" />
+    <Folder Include="Services\" />
+    <Folder Include="wwwroot\blogs\2023\" />
   </ItemGroup>
 
 </Project>

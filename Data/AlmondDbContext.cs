@@ -9,5 +9,6 @@ namespace almondCoveApi.Data
         {
         }
         public DbSet<Mail>  MailingList { get; set; }
+        public DbSet<User> UserProfiles { get; set; }
     }
 }

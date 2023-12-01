@@ -1,4 +1,6 @@
 using almondCoveApi.Data;
+using almondCoveApi.Repositories.Implementations;
+using almondCoveApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,10 @@ builder.Services.AddDbContext<AlmondDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("almondCoveStr"));
 });
 
+
+//repos as services
+builder.Services.AddScoped<IMailRepository, MailRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

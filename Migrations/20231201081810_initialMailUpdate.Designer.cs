@@ -12,8 +12,8 @@ using almondCoveApi.Data;
 namespace almondCoveApi.Migrations
 {
     [DbContext(typeof(AlmondDbContext))]
-    [Migration("20231201063354_Initialmigration")]
-    partial class Initialmigration
+    [Migration("20231201081810_initialMailUpdate")]
+    partial class initialMailUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,11 +36,13 @@ namespace almondCoveApi.Migrations
 
                     b.Property<string>("MailId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Origin")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace almondCoveApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialmigration : Migration
+    public partial class initialMailUpdate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,8 @@ namespace almondCoveApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MailId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Origin = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MailId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Origin = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

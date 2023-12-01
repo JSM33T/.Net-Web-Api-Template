@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using almondCoveApi.Data;
 
@@ -11,9 +12,11 @@ using almondCoveApi.Data;
 namespace almondCoveApi.Migrations
 {
     [DbContext(typeof(AlmondDbContext))]
-    partial class AlmondDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231201090752_adds user profiles")]
+    partial class addsuserprofiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,6 +61,7 @@ namespace almondCoveApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Bio")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -78,10 +82,12 @@ namespace almondCoveApi.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Links")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -91,6 +97,7 @@ namespace almondCoveApi.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasMaxLength(14)
                         .HasColumnType("nvarchar(14)");
 
