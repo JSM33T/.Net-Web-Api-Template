@@ -15,6 +15,8 @@ namespace almondCoveApi.Controllers
 {
 
     [ApiController]
+    [Route("api/[controller]")]
+    [IgnoreAntiforgeryToken]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -27,13 +29,18 @@ namespace almondCoveApi.Controllers
         }
 
 
-        [HttpGet("/api/users/list")]
-        public async Task<IEnumerable<User>> GetUserProfiles()
+        [HttpGet("list")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUserProfiles()
         {
-            return await _userRepository.GetUsersAsync();
+            var users = await _userRepository.GetUsersAsync();
+            if (users == null || !users.Any())
+            {
+                _logger.LogInformation("No user profiles found.");
+            }
+            return Ok(users ?? Enumerable.Empty<User>());
         }
 
-        [HttpPost("/api/user/add")]
+        [HttpPost("add")]
         public async Task<IActionResult> CreateAsync(UserDTO userDTO)
         {
             var user = new User()
@@ -56,13 +63,22 @@ namespace almondCoveApi.Controllers
             }
             else if (matchres == MatchUser.Email)
             {
-                _logger.LogInformation("Username {email} already exists", userDTO.Email);
+                _logger.LogInformation("Email {Email} already exists", userDTO.Email);
                 return Conflict("An account with this email already exists");
             }
             else
             {
-                await _userRepository.CreateAsync(user);
-                return Ok("account for " + userDTO.UserName + " created successfully");
+                try
+                {
+                    await _userRepository.CreateAsync(user);
+                    _logger.LogInformation("User {UserName} created successfully", user.UserName);
+                    return Ok("account for " + userDTO.UserName + " created successfully");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error creating user {UserName}: {ErrorMessage}", userDTO.UserName, ex.Message);
+                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating the user.");
+                }
             }
            
         }

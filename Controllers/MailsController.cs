@@ -2,13 +2,16 @@
 using almondCoveApi.Models.DTO;
 using almondCoveApi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace almondCoveApi.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
+    [IgnoreAntiforgeryToken]
     public class MailsController : ControllerBase
     {
-        public readonly IMailRepository _mailRepository;
+        private readonly IMailRepository _mailRepository;
         private readonly ILogger<MailsController> _logger;
         public MailsController(ILogger<MailsController> logger,IMailRepository mailRepository)
         {
@@ -16,12 +19,12 @@ namespace almondCoveApi.Controllers
             _mailRepository = mailRepository;
         }
 
-        [HttpPost("/api/mail/add")]
-        [IgnoreAntiforgeryToken]
+        [HttpPost("add")]
         public async Task<IActionResult> AddMailToList([FromBody] MailDTO mailDTO)
         {
             var mail = new Mail()
             {
+                // Note: MailId in the Mail domain model is being populated from the Email property of the MailDTO.
                 MailId = mailDTO.Email,
                 Origin = mailDTO.Origin,
                 DateAdded = DateTime.Now
@@ -35,7 +38,7 @@ namespace almondCoveApi.Controllers
             try
             {
                 await _mailRepository.CreateAsync(mail);
-                _logger.LogError("mail- {mail} addded to list on {datetime}", mailDTO.Email, DateTime.Now);
+                _logger.LogInformation("Mail {mail} added to list on {datetime}", mailDTO.Email, DateTime.Now);
                 return Ok(mail);
             }
             catch(Exception ex) {
@@ -44,26 +47,22 @@ namespace almondCoveApi.Controllers
             }
         }
 
-        [HttpGet("/api/mail/list")]
+        [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<Mail>>> GetMailingList()
         {
             var mailingList = await _mailRepository.GetMailingListAsync();
-
-            if (mailingList == null || !mailingList.Any())
-            {
-                return NotFound();
-            }
-            return Ok(mailingList);
+            return Ok(mailingList ?? Enumerable.Empty<Mail>());
         }
 
         // GET: api/Mails/5
-        [HttpGet("/api/mail/get/{id}")]
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<Mail>> GetMail(Guid id)
         {
             var mail = await _mailRepository.GetMailAsync(id);
 
             if (mail == null)
             {
+                _logger.LogInformation("Mail with Id {Id} not found", id);
                 return NotFound();
             }
 
@@ -71,61 +70,5 @@ namespace almondCoveApi.Controllers
         }
 
 
-        //// PUT: api/Mails/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutMail(Guid id, Mail mail)
-        //{
-        //    if (id != mail.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(mail).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!MailExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-
-        // DELETE: api/Mails/5
-        //[HttpPost("/api/mail/delete/{id}")]
-        //public async Task<IActionResult> DeleteMail(Guid id)
-        //{
-        //    if (_context.MailingList == null)
-        //    {
-        //        return NotFound("invalid id provided");
-        //    }
-        //    var mail = await _context.MailingList.FindAsync(id);
-        //    if (mail == null)
-        //    {
-        //        return NotFound("invalid id provided");
-        //    }
-
-        //    _context.MailingList.Remove(mail);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok("email deleted successfully");
-        //}
-
-        //private bool MailExists(string Email)
-        //{
-        //    return (_context.MailingList?.Any(e => e.MailId == Email)).GetValueOrDefault();
-        //}
     }
 }
